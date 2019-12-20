@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    public GameObject bullet;
+    public Rigidbody2D bullet;
+    public Transform bulletExit;
 
     // Start is called before the first frame update
     void Start()
@@ -23,8 +24,8 @@ public class Shooting : MonoBehaviour
 
     void shootAt()
     {
-        Vector2 instantiatePosition = new Vector2(transform.position.x + 1, transform.position.y);
+        Rigidbody2D bulletRgbd = Instantiate(bullet, bulletExit.position, bulletExit.rotation);
 
-        GameObject b = Instantiate(bullet, instantiatePosition, Quaternion.identity);
+        bulletRgbd.velocity = transform.right * 8f;
     }
 }

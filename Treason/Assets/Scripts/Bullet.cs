@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Bullet : MonoBehaviour
 {
     float speed = 5;
-
-    Vector2 direction = new Vector2(1, 0);
 
     float timerSelfDestruct = 0;
     float timerSelfDestruct_Max = 5;
 
     ScoreManager scoreManager;
+
+    private Rigidbody2D rgbd;
+
+    private void Awake()
+    {
+        rgbd = GetComponent<Rigidbody2D>();
+
+        scoreManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<ScoreManager>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +30,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+        //rgbd.MovePosition(direction * speed * Time.deltaTime/*, Space.World*/);
 
         if (Time.time >= timerSelfDestruct + timerSelfDestruct_Max)
         {
@@ -32,7 +40,7 @@ public class Bullet : MonoBehaviour
         }        
     }
 
-    private void OnCollisionEnter2D(Collision collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Zombie")
         {
@@ -40,7 +48,7 @@ public class Bullet : MonoBehaviour
 
             scoreManager.score++;
 
-            Destroy(gameObject);            
+            Destroy(gameObject);
         }
     }
 }

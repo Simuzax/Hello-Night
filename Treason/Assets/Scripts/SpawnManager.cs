@@ -48,7 +48,9 @@ public class SpawnManager : MonoBehaviour
     {
         int spawnLocation = Random.Range(0, spawnPoints.Length);
 
-        Vector3 position = spawnPoints[spawnLocation].position;
+        Vector3 spawnPosition = spawnPoints[spawnLocation].position;
+
+        Vector2 position = new Vector2(spawnPosition.x, spawnPosition.y);
 
         GameObject z = Instantiate(zombies[Random.Range(0,3)], position, Quaternion.identity).GetComponent<GameObject>();
     }
