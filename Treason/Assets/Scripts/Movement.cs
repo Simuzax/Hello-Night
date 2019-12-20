@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public float walkSpeed;
-    public float runSpeed;
-
+    float walkSpeed = 3;
+    float runSpeed = 5;
+        
     Vector2 input;
 
     // Start is called before the first frame update
@@ -18,7 +18,7 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movement();
+        if (Input.anyKey) { movement(); }        
     }
 
     void movement()
@@ -27,11 +27,21 @@ public class Movement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            transform.Translate(runSpeed * input * Time.deltaTime);
+            transform.Translate(runSpeed * input * Time.deltaTime, Space.World);
         }
         else
         {
-            transform.Translate(walkSpeed * input * Time.deltaTime);
+            transform.Translate(walkSpeed * input * Time.deltaTime, Space.World);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Zombie")
+        {
+            Destroy(gameObject);
+
+            Application.Quit();
         }
     }
 }
